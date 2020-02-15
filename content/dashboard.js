@@ -349,8 +349,7 @@
             },{ 
                 x: '2020-02-15',
                 y: 109.8
-            },
-
+            }
         ],
         lineTension: 0,
         backgroundColor: 'transparent',
