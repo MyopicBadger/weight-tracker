@@ -30,7 +30,7 @@ function saveFiles() {
 }
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'content/vue.html'),)
+  res.sendFile(path.join(__dirname, 'dist/vue.html'),)
 })
 
 app.get('/history.json', function (req, res) {
@@ -39,7 +39,7 @@ app.get('/history.json', function (req, res) {
 })
 
 // Make the content directory visible for the server
-app.use(express.static('content'))
+app.use(express.static('dist'))
 
 var server = app.listen(port, hostname, () => {
   loadFiles()

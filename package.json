@@ -5,12 +5,18 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.17.1",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "devDependencies": {
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "private": true,
   "author": "",
   "license": "ISC"
 }
