@@ -3,12 +3,8 @@ import Vue from 'vue'
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
-import toastr from 'toastr';
-import 'sweetalert';
 import 'chart.js';
 import feather from 'feather-icons'
-
-window.toastr = toastr;
 
 var app = new Vue({
     el: '#mainpage',
@@ -26,7 +22,7 @@ var app = new Vue({
             if (startDate) {
                 endpoint = './historyByDate.json'
                 fetchConfig = {
-                    method: 'POST', // or 'PUT'
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -75,7 +71,6 @@ var app = new Vue({
         },
         postNewValue: function () {
             console.log("Fired", this.newEntryValue)
-            toastr.info('Are you the 6 fingered man?')
             var endpoint = './newEntry'
             var fetchConfig = {
                 method: 'POST', // or 'PUT'
