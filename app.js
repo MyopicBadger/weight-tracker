@@ -60,8 +60,10 @@ app.post('/newEntry', function (req, res, next) {
   if (req.body.date && req.body.weight) {
     subject.historic.push({x: req.body.date, y: req.body.weight});
     saveFiles();
+    res.json({status:'success'})
   } else {
     res.json({
+      status:'error',
       error: 'Insufficient data provided',
       errorDetails: req.body
     })

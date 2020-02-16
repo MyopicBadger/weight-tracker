@@ -8,13 +8,16 @@ import 'sweetalert';
 import 'chart.js';
 import feather from 'feather-icons'
 
+window.toastr = toastr;
+
 var app = new Vue({
     el: '#mainpage',
     data: {
         historic: [],
         myChart: { destroy: function () { console.log('calling fake destroy') } },
         mode: 'all time',
-        newEntryValue: ""
+        newEntryValue: "",
+        chartUnit: 'month'
     },
     methods: {
         loadSave: function (startDate) {
@@ -57,19 +60,40 @@ var app = new Vue({
         },
         setChartMonth: function (event) {
             this.mode = 'this month'
+            this.chartUnit = "day"
             this.setChartFilter(moment().date(1))
         },
         setChartYear: function (event) {
             this.mode = 'this year'
+            this.chartUnit = 'month'
             this.setChartFilter(moment().dayOfYear(1))
         },
         setChartAll: function (event) {
             this.mode = 'all time'
+            this.chartUnit = 'month'
             this.loadSave();
         },
         postNewValue: function () {
             console.log("Fired", this.newEntryValue)
             toastr.info('Are you the 6 fingered man?')
+            var endpoint = './newEntry'
+            var fetchConfig = {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ date: moment().format("YYYY-MM-DD"), weight: Number.parseFloat(this.newEntryValue).toFixed(1)}),
+            }
+            fetch(endpoint, fetchConfig).then(
+                (response) => {
+                    if (response.status !== 200) {
+                        console.log('Looks like there was a problem. Status Code: ' + response.status);
+                        return;
+                    }
+                    this.loadSave()
+                }).catch(function (err) {
+                    console.log('Fetch Error :-S', err);
+                });
         }
     },
     computed: {
@@ -93,7 +117,7 @@ var app = new Vue({
                         xAxes: [{
                             type: 'time',
                             time: {
-                                unit: 'month',
+                                unit: this.chartUnit,
                                 suggestedMin: moment('2017-03-15'),
                                 suggestedMax: moment(),
                             }
