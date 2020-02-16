@@ -17,8 +17,12 @@ function loadFiles() {
   console.log("Load Files...")
   fs.readFile('save.json', (err, data) => {
     console.log("Load Files Complete")
-    if (err) throw err;
-    subject = JSON.parse(data);
+    if (err) {
+      console.log("Unable to load save.json");
+      subject = {historic: []}
+    } else {
+      subject = JSON.parse(data);
+    }
     console.log("Loaded", subject.historic.length, "records");
   });
 }
@@ -58,12 +62,12 @@ app.post('/historyByDate.json', function (req, res) {
 app.post('/newEntry', function (req, res, next) {
   console.log(req.body)
   if (req.body.date && req.body.weight) {
-    subject.historic.push({x: req.body.date, y: req.body.weight});
+    subject.historic.push({ x: req.body.date, y: req.body.weight });
     saveFiles();
-    res.json({status:'success'})
+    res.json({ status: 'success' })
   } else {
     res.json({
-      status:'error',
+      status: 'error',
       error: 'Insufficient data provided',
       errorDetails: req.body
     })
